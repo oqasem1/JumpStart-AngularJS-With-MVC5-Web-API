@@ -1,0 +1,26 @@
+﻿<!--Starting AngularJS With MVC Web API by Omar Al-Haj Qasem , 15 Sep 2014-->
+<body ng-app="MyApp">
+    <div ng-controller="PostsCtrl">
+        <ul ng-repeat="post in posts">
+            <li>{{post.title}}</li>
+        </ul>
+    </div>
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+<script>
+
+    var app = angular.module("MyApp", []);
+
+    app.controller("PostsCtrl", function ($scope, $http) {
+        $http.get('api/product').
+          success(function (data, status, headers, config) {
+              $scope.posts = data;
+              alert("Success");
+          }).
+          error(function (data, status, headers, config) {
+              // log error
+              alert("error");
+          });
+    });
+</script>

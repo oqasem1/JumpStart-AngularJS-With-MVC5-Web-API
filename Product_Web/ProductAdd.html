@@ -1,0 +1,38 @@
+﻿<!--Starting AngularJS With MVC Web API by Omar Al-Haj Qasem , 15 Sep 2014-->
+<!doctype html>
+<html>
+<head>
+    <title>Product Add</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+</head>
+<body ng-app="ProductAdd">
+    <script>
+        angular.module('ProductAdd', [])
+        .controller('ProductAddController', ['$scope', '$http', function ($scope, $http) {
+            $scope.submit = function () {
+                if ($scope.Name) {
+                    var product = {
+                        "Name": $scope.Name,
+                        "Category": $scope.Type,
+                        "Price": $scope.Price
+                    }
+                    $http.post('http://localhost:1110/api/product', product).
+                    success(function (data, status, headers, config) {
+                        alert('Product Added Successfully');
+                    }).
+                    error(function (data, status, headers, config) {
+                        alert("erro");
+                    });
+                }
+            };
+        }]);
+    </script>
+    <h2>Add New Product</h2>
+    <form ng-submit="submit()" ng-controller="ProductAddController">
+        <div>Name:<input type="text" ng-model="Name" required></div></br>
+        <div>Type:<input type="text" ng-model="Type" required> </div> </br>
+        <div>Price:<input type="text" ng-model="Price"> </div> </br>
+        <div> <input type="submit" id="productsubmit" value="Submit" /></div> </br>
+    </form>
+</body>
+</html>

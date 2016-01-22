@@ -1,0 +1,82 @@
+﻿<!--Starting AngularJS With MVC Web API by Omar Al-Haj Qasem , 15 Sep 2014-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Product App</title>
+</head>
+<body>
+
+    <div>
+        <h2>All Products</h2>
+        <ul id="products" />
+    </div>
+    <div>
+        <h2>Search by ID</h2>
+        <input type="text" id="prodId" size="5" />
+        <input type="button" value="Search" onclick="find();" />
+        <p id="product" />
+    </div>
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script>
+
+        $http({
+            method: 'JSONP',
+            url: 'https://api.github.com/events?callback=JSON_CALLBACK'
+        }).success(function (data, status, headers, config) {
+            // data contains the response
+            // status is the HTTP status
+            // headers is the header getter function
+            // config is the object that was used to create the HTTP request
+        }).error(function (data, status, headers, config) {
+        });
+
+
+        var uri = 'api/product';
+        debugger;
+        $http({ method: 'GET', url: uri }).
+ success(function (data, status, headers, config) {
+     alert('Success');
+     // this callback will be called asynchronously
+     // when the response is available
+ }),
+ error(function (data, status, headers, config) {
+     alert('Fail');
+     // called asynchronously if an error occurs
+     // or server returns response with an error status.
+ });
+
+        $(document).ready(function () {
+            // Send an AJAX request
+            $.getJSON(uri)
+                .done(function (data) {
+                    // On success, 'data' contains a list of products.
+                    alert(data);
+                    $.each(data, function (key, item) {
+                        // Add a list item for the product.
+                        alert(item);
+                        $('<li>', { text: formatItem(item) }).appendTo($('#products'));
+                    });
+
+                });
+        });
+
+        function formatItem(item) {
+            alert(item);
+            return item.Name + ': $' + item.Price;
+        }
+
+        function find() {
+            var id = $('#prodId').val();
+            $.getJSON(uri + '/' + id)
+                .done(function (data) {
+                    $('#product').text(formatItem(data));
+                })
+                .fail(function (jqXHR, textStatus, err) {
+                    $('#product').text('Error: ' + err);
+                });
+        }
+    </script>
+</body>
+</html>

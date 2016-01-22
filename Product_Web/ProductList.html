@@ -1,0 +1,31 @@
+﻿<!--Starting AngularJS With MVC Web API by Omar Al-Haj Qasem , 15 Sep 2014-->
+<body ng-app="ProductApp">
+    <h1>Product List</h1>
+    <div ng-controller="ProductController">
+        <table ng-repeat="product in products" border="1">
+            <tr>
+                <td>{{product.ID}}</td>
+                <td>{{product.Name}}</td>
+                <td>{{product.Price}}</td>
+                <td>{{product.Category}}</td>
+            </tr>
+
+        </table>
+    </div>
+    
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+<script>
+    var app = angular.module("ProductApp", []);
+    app.controller("ProductController", function ($scope, $http) {
+        $http.get('http://localhost:1110/api/product').
+          success(function (data, status, headers, config) {
+              $scope.products = data;
+              
+          }).
+          error(function (data, status, headers, config) {
+              alert("erro");
+          });
+    });
+</script>
